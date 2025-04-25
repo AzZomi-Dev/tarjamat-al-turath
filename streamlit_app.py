@@ -65,7 +65,6 @@ def translate(text, src_lang, tgt_lang):
     return tokenizer.decode(outputs[0], skip_special_tokens=True)
 
 # UI
-st.title("🕌 Tarjamat Al-Turath")
 st.subheader("Discover and Translate Arabic & English Proverbs")
 
 # Input field based on selected UI language
