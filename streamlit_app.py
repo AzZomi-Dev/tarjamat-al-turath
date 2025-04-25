@@ -13,15 +13,17 @@ with open("data/proverbs.json", "r", encoding="utf-8") as f:
 texts = [p["text"] for p in proverbs]
 
 # Load models
+
 @st.cache_resource
 def load_models():
     embedder = SentenceTransformer("sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
-    summarizer = pipeline("text2text-generation", model="csebuetnlp/mT5_multilingual_XLSum")
-    translator = MarianMTModel.from_pretrained("Helsinki-NLP/opus-mt-en-ar")
+    summarizer = pipeline("text2text-generation", model="google/flan-t5-small")  # ✅ Streamlit-safe
+    translator_model = MarianMTModel.from_pretrained("Helsinki-NLP/opus-mt-en-ar")
     tokenizer = MarianTokenizer.from_pretrained("Helsinki-NLP/opus-mt-en-ar")
-    return embedder, summarizer, translator, tokenizer
+    return embedder, summarizer, translator_model, tokenizer
 
 embedder, summarizer, translator_model, tokenizer = load_models()
+
 
 # Create FAISS index
 embeddings = embedder.encode(texts).astype("float32")
